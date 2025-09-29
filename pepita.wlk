@@ -1,9 +1,9 @@
 
 object pepita {
 	var property position = game.center() 
-	var energia = 100
+	var property energia = 500
 	method image(){
-		if(self.atrapada()){
+		if(self.atrapada() || self.energia() < 9){
 		return  "pepita-gris.png"
 		}else {return "pepita.png"}
 	}
@@ -12,27 +12,21 @@ object pepita {
 	}
 
 	method volar(kms) {
-		energia = energia - 10 - kms 
+		energia = energia - kms*9 
 	}
 	method atrapada(){
 		return (self.position() == silvestre.position()) 
 	}
-	
-	method energia() {
-		return energia
+	method irA(positionDestino){
+        if(energia >= position.distance(positionDestino)*9 && !self.estaEnBorde(positionDestino)){
+            self.volar(position.distance(positionDestino))
+            position= positionDestino
 	}
-	method derecha() {
-    	position = position.right(1)
 	}
-	method izquierda() {
-    	position = position.left(1)
+	method estaEnBorde(positionDestino){
+		return positionDestino.x() == -1 || positionDestino.x() == 10 || positionDestino.y() == -1 || positionDestino.y() == 10
 	}
-	method arriba() {
-		position = position.up(1)
-	}
-	method abajo() {
-    	position = position.down(1)
-	}
+
 
 }
 object silvestre{
@@ -43,15 +37,8 @@ object silvestre{
 	  method centrar() {
     	position = game.center()
     }
-	method perseguirAPepita(){
-		if (pepita.derecha()){
-			self.derecha()
-		}else if (pepita.izquierda()){
-			self.izquierda()
-		}
-	}
 	method position(){
-		if (pepita.position().x() > 3){
+		if (pepita.position().x() < 3){
 			return game.at(3,0)
 		}else{
 		return game.at(pepita.position().x(),0)
@@ -63,4 +50,13 @@ object silvestre{
 	method izquierda() {
     position = position.left(1)
 	}
+}
+object config {
+    method configTeclas() {
+      keyboard.left().onPressDo({pepita.irA(pepita.position().left(1))})
+      keyboard.right().onPressDo({pepita.irA(pepita.position().right(1))})
+      keyboard.up().onPressDo({pepita.irA(pepita.position().up(1))})
+      keyboard.down().onPressDo({pepita.irA(pepita.position().down(1))})
+
+    }
 }

@@ -10,7 +10,9 @@ object pepita {
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
 	}
-
+	method gravedad(){
+		self.position(game.at(self.position().x(),self.position().y()-1))
+	}
 	method volar(kms) {
 		energia = energia - kms*9 
 	}
@@ -26,8 +28,28 @@ object pepita {
 	method estaEnBorde(positionDestino){
 		return positionDestino.x() == -1 || positionDestino.x() == 10 || positionDestino.y() == -1 || positionDestino.y() == 10
 	}
-
-
+}
+object manzana{
+	var property position = game.at(2,4)
+	method image(){
+		return "manzana.png"
+	}
+	
+}
+object nido{
+	var property position = game.at(5,6)
+	method image(){
+		return "nido.png"
+	}
+}
+object alpiste{
+	var property position = game.at(3,4)
+	method image(){
+		return "alpiste.png"
+	}
+	method energia(){
+		return 30
+	}
 }
 object silvestre{
 	var property position = game.origin()

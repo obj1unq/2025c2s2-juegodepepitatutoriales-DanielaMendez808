@@ -11,6 +11,11 @@ program pepitaGame {
 	
 	game.addVisual(pepita)
 	game.addVisual(silvestre)
+	game.addVisual(manzana)
+	game.addVisual(alpiste)
+	game.addVisual(nido)
 	config.configTeclas()
+	game.whenCollideDo(pepita,{manzana => game.removeVisual(manzana)})
+	game.onTick(800, "gravedad", { pepita.gravedad() })
 	game.start()	
 }

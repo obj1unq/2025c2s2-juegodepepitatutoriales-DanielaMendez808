@@ -9,6 +9,13 @@ program pepitaGame {
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
 	
-	//game.addVisual(pepita)
+	game.addVisual(pepita)
+	game.addVisual(silvestre)
+	game.addVisual(manzana)
+	game.addVisual(alpiste)
+	game.addVisual(nido)
+	config.configTeclas()
+	game.whenCollideDo(pepita,{manzana => game.removeVisual(manzana)})
+	game.onTick(800, "gravedad", { pepita.gravedad() })
 	game.start()	
 }
